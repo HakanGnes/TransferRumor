@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import warnings
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
