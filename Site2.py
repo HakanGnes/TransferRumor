@@ -10,7 +10,7 @@ from yellowbrick.cluster import KElbowVisualizer
 # 1. Kod
 @st.cache_data
 def load_data():
-    df = pd.read_excel("Data/no_nans_data.xlsx", sheet_name="Sayfa1")
+    df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa1")
     df = df.drop_duplicates()
     df.columns = df.columns.str.upper()
     df[['CLUB', 'POSITION']] = df[['CLUB', 'POSITION']].applymap(lambda x: x.upper())
