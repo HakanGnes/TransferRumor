@@ -85,7 +85,7 @@ def main():
         ilgilenilebilecek_oyuncular(load_data())
     elif selected_option == "Sales Expectation and Performance Analysis":
         df = pd.read_excel("./no_nans_data1.xlsx",sheet_name="Sheet1")
-        df2 = pd.read_excel(""./no_nans_data1.xlsx",sheet_name="Sheet2")
+        df2 = pd.read_excel("./no_nans_data1.xlsx",sheet_name="Sheet2")
         df6 = pd.concat([df, df2], axis=1)
         oyuncu_kazanc_beklentisi(df6)
     else:
