@@ -1,0 +1,6 @@
+matplotlib
+streamlit
+numpy
+pandas
+scikit-learn
+yellowbrick==1.5
