@@ -11,7 +11,7 @@ from yellowbrick.cluster import KElbowVisualizer
 # 1. Kod
 @st.cache_data
 def load_data():
-    df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa1")
+    df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sheet1")
     df = df.drop_duplicates()
     df.columns = df.columns.str.upper()
     df[['CLUB', 'POSITION']] = df[['CLUB', 'POSITION']].applymap(lambda x: x.upper())
@@ -84,13 +84,13 @@ def main():
     if selected_option == "Transfer Player Prediction":
         ilgilenilebilecek_oyuncular(load_data())
     elif selected_option == "Sales Expectation and Performance Analysis":
-        df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa1")
+        df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sheet1")
         df2 = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa2")
         df6 = pd.concat([df, df2], axis=1)
         oyuncu_kazanc_beklentisi(df6)
     else:
-        df4 = pd.read_excel("Data/Recommend_for_action.xlsx")
-        df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa1")
+        df4 = pd.read_excel("./Recommend_for_action.xlsx")
+        df = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sheet1")
         df2 = pd.read_excel("./no_nans_data.xlsx", sheet_name="Sayfa2")
         df5 = pd.concat([df, df2], axis=1)
         df5 = df5.loc[:, ~df5.columns.duplicated()]
