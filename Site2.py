@@ -1,14 +1,11 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from yellowbrick.cluster import KElbowVisualizer
-import base64
-import plotly.express as px
 
 # 1. Kod
 @st.cache_data
