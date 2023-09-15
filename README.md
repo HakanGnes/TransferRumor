@@ -1,4 +1,4 @@
-# # TransferRumor⚽️
+#  TransferRumor⚽️
 
 ## The Right Player, Solid Victory!
 Start your journey to success by making data-based decisions in the exciting world of football with "Transfer Rumor". Prove that football is not just a game, but also a struggle that can be won with data and analysis.
