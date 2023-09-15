@@ -7,10 +7,15 @@ If you want to find the most suitable players for your team, regardless of regio
 
 ## Project Steps
 Data Preparation and Preprocessing
+
 Transfer Player Recommendation with K-Means
+
 Segmentation
+
 Estimated Sales Expectation with Segmentation
+
 Action Recommendation for Teams
+
 Stremlit App
 
 ## Data
