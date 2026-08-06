@@ -13,8 +13,4 @@ services:
       # Frontend adresini Vercel'den aldiktan sonra Render panelinden
       # bu degeri guncelle. Birden fazla adres virgulle ayrilir.
       - key: ALLOWED_ORIGINS
-<<<<<<< HEAD
         sync: false
-=======
-        sync: false
->>>>>>> f90ad31 (Deployment: Render + Vercel yapilandirmasi, CORS kisitlamasi, soguk baslatma bildirimi)
