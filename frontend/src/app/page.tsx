@@ -30,15 +30,24 @@ export default function Home() {
   const [openCard, setOpenCard] = useState<number | null>(null);
   const [squad, setSquad] = useState<SquadPlayer[] | null>(null);
   const [tab, setTab] = useState<"targets" | "squad">("targets");
+  const [waking, setWaking] = useState(false);
 
   useEffect(() => {
+    // Ucretsiz barindirmada backend uykuda olabilir; ilk istek uzun
+    // surerse kullaniciya ne oldugunu soyluyoruz, bos ekran birakmiyoruz.
+    const slow = setTimeout(() => setWaking(true), 2500);
     api
       .leagues()
       .then((r) => {
         setLeagues(r.leagues);
         if (r.leagues.length) setLeague(r.leagues[0].LEAGUE);
       })
-      .catch((e) => setError(e.message));
+      .catch((e) => setError(e.message))
+      .finally(() => {
+        clearTimeout(slow);
+        setWaking(false);
+      });
+    return () => clearTimeout(slow);
   }, []);
 
   useEffect(() => {
@@ -110,6 +119,20 @@ export default function Home() {
       </header>
 
       <div className="mx-auto max-w-6xl px-5 py-8">
+        {waking && (
+          <div className="mb-6 border border-floodlight/30 bg-floodlight/5 rounded-lg p-4 flex items-start gap-3">
+            <span className="mt-1 h-2 w-2 rounded-full bg-floodlight animate-pulse shrink-0" />
+            <div>
+              <p className="text-sm text-chalk">Sunucu uyanıyor…</p>
+              <p className="text-xs text-chalk-dim mt-0.5 leading-relaxed">
+                Ücretsiz barındırmada API 15 dakika kullanılmayınca uykuya
+                geçiyor. İlk açılış 30-60 saniye sürebilir; sonraki istekler
+                anında yanıtlanır.
+              </p>
+            </div>
+          </div>
+        )}
+
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
           <Field label="Lig">
             <select

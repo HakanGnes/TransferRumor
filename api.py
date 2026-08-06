@@ -19,6 +19,7 @@ NOT: transfermarkt-api Docker container'i 8000 portunu kullaniyor,
      bu yuzden API 8100'de calisiyor.
 """
 
+import os
 from functools import lru_cache
 from typing import List, Optional
 
@@ -48,12 +49,21 @@ app = FastAPI(
     version="2.0.0",
 )
 
-# Frontend farkli bir portta calisacagi icin CORS acik
+# Frontend farkli bir domainde calisiyor, bu yuzden CORS gerekli.
+# Uretimde ALLOWED_ORIGINS ortam degiskeniyle kendi frontend adresine
+# kisitla (virgulle ayrilmis liste). Ayarlanmazsa gelistirme icin acik.
+_origins_env = os.environ.get("ALLOWED_ORIGINS", "").strip()
+ALLOWED_ORIGINS = (
+    [o.strip() for o in _origins_env.split(",") if o.strip()]
+    if _origins_env
+    else ["*"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # uretimde kendi frontend domainininle sinirla
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 

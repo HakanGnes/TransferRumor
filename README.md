@@ -1,5 +1,10 @@
 # TransferRumor ⚽️
 
+**[→ Canlı demo](https://SENIN-VERCEL-ADRESIN.vercel.app)** · [API dokümantasyonu](https://SENIN-RENDER-ADRESIN.onrender.com/docs)
+
+> API ücretsiz katmanda barındırılıyor ve 15 dakika kullanılmayınca uykuya
+> geçiyor. İlk açılış 30-60 saniye sürebilir, sonrası anında yanıtlar.
+
 Kadro analizine dayalı futbol transfer öneri sistemi. Bir takımın hangi
 pozisyonunun takviye istediğini tespit eder, o pozisyon için bütçeye ve
 ulaşılabilirliğe göre sıralanmış hedefler önerir.
@@ -82,27 +87,28 @@ arayüzden bağımsızdır; hem FastAPI hem Streamlit aynı modülleri kullanır
 
 ### Dosyalar
 
-```
-transferrumor/
-├── api.py                      FastAPI REST servisi
-├── app_streamlit.py            Streamlit arayüzü (alternatif)
-├── data_loader.py              SQLite → DataFrame, per-90 normalizasyon
-├── player_segmentation.py      Pozisyon bazlı puanlama, segment atama
-├── recommendation_engine.py    Kadro analizi, lig gücü, ulaşılabilirlik
-├── api_football_data.db        SQLite veritabanı
-├── scripts/                    Veri toplama ve bakım
-│   ├── fetch_api_football_data.py
-│   ├── fetch_transfermarkt_values.py
-│   ├── migrate_rich_stats.py
-│   ├── reset_market_values.py
-│   ├── retry_not_found.py
-│   ├── find_league_id.py
-│   └── slim_db.py
-└── frontend/                   Next.js arayüzü
-```
+**Uygulama çekirdeği**
 
-`scripts/` altındaki dosyalar veritabanını proje kökünden arar; bu yüzden
-**kök dizinden** çalıştırılmalıdır: `python scripts/fetch_api_football_data.py`
+| Dosya | Görev |
+|---|---|
+| `data_loader.py` | SQLite → DataFrame, per-90 normalizasyon, eksik veri politikası |
+| `player_segmentation.py` | Pozisyon bazlı puanlama ve segment atama |
+| `recommendation_engine.py` | Kadro analizi, lig gücü, ulaşılabilirlik skoru |
+| `api.py` | FastAPI REST servisi |
+| `Site2.py` | Streamlit arayüzü (alternatif) |
+| `frontend/` | Next.js arayüzü |
+
+**Veri toplama ve bakım**
+
+| Dosya | Görev |
+|---|---|
+| `fetch_api_football_data.py` | API-Football'dan istatistik çeker |
+| `fetch_transfermarkt_values.py` | Transfermarkt'tan piyasa değeri çeker |
+| `migrate_rich_stats.py` | `raw_json`'dan zengin istatistikleri sütunlara çıkarır |
+| `reset_market_values.py` | Piyasa değeri tablosunu sıfırlar |
+| `retry_not_found.py` | Bulunamayan eşleşmeleri yeniden dener |
+| `find_league_id.py` | Lig ID'si bulucu |
+| `slim_db.py` | `raw_json` sütununu kaldırıp DB'yi küçültür |
 
 ---
 
@@ -141,7 +147,7 @@ ayarlanır.
 ### Streamlit sürümü (alternatif)
 
 ```bash
-streamlit run app_streamlit.py
+streamlit run Site2.py
 ```
 
 ---
@@ -153,8 +159,8 @@ gerekir:
 
 ```bash
 $env:API_FOOTBALL_KEY = "anahtarin"     # PowerShell
-python scripts/fetch_api_football_data.py   # kota bitince durur, ertesi gün devam eder
-python scripts/migrate_rich_stats.py        # zengin istatistikleri çıkar
+python fetch_api_football_data.py   # kota bitince durur, ertesi gün devam eder
+python migrate_rich_stats.py        # zengin istatistikleri çıkar
 ```
 
 Piyasa değerleri için kendi bilgisayarında çalışan bir
@@ -163,7 +169,7 @@ Piyasa değerleri için kendi bilgisayarında çalışan bir
 
 ```bash
 docker start transfermarkt-api
-python scripts/fetch_transfermarkt_values.py
+python fetch_transfermarkt_values.py
 ```
 
 Her iki script de kesintiye uğrarsa kaldığı yerden devam eder.
@@ -184,12 +190,30 @@ Her iki script de kesintiye uğrarsa kaldığı yerden devam eder.
 
 ---
 
+## Canlıya alma
+
+Frontend Vercel'de, API Render'da barındırılıyor.
+
+**API (Render)** — `New > Blueprint` ile bu repoyu bağla; `render.yaml`
+servisi otomatik oluşturur. Servis ayağa kalktıktan sonra panelden
+`ALLOWED_ORIGINS` değişkenine Vercel adresini yaz (CORS için gerekli).
+
+**Frontend (Vercel)** — `New Project` ile repoyu bağla, **Root Directory**
+olarak `frontend` seç. Environment Variables bölümüne ekle:
+
+```
+NEXT_PUBLIC_API_URL = https://<render-servis-adin>.onrender.com
+```
+
+Sıralama önemli: önce API'yi dağıt, adresini al, sonra Vercel'e gir.
+Vercel adresini aldıktan sonra Render'daki `ALLOWED_ORIGINS`'i güncelle.
+
+---
+
 ## Teknolojiler
 
 Python · pandas · scikit-learn · FastAPI · SQLite ·
 Next.js · TypeScript · Tailwind CSS · Framer Motion
-
----
 
 ---
 

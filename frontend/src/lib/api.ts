@@ -94,14 +94,26 @@ export type SquadResponse = {
 };
 
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, { cache: "no-store" });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(
-      `API ${res.status}: ${detail.slice(0, 200) || res.statusText}`
-    );
+  // Ucretsiz barindirmada backend uykuya gecebiliyor ve ilk istek
+  // 30-60 saniye surebiliyor. Varsayilan fetch zaman asimi bunu
+  // karsilamayabilir; acikca uzun bir sinir koyuyoruz.
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90_000);
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(
+        `API ${res.status}: ${detail.slice(0, 200) || res.statusText}`
+      );
+    }
+    return res.json() as Promise<T>;
+  } finally {
+    clearTimeout(timeout);
   }
-  return res.json() as Promise<T>;
 }
 
 export const api = {
