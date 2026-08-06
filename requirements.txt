@@ -9,3 +9,6 @@ graphviz
 seaborn
 skompiler
 joblib
+fastapi
+uvicorn[standard]
+requests
