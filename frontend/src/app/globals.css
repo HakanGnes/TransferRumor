@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/*
+  TransferRumor — "floodlit night" tasarim sistemi
+  Palet, futbolun kendi dunyasindan turetildi: gece macinda sahanin
+  derin lacivertisi, tebesir cizgileri, projektor amberi, saha yesili.
+*/
+:root {
+  --pitch-deep:    #0A1520;  /* zemin */
+  --pitch-surface: #121F2E;  /* kartlar */
+  --pitch-raised:  #1A2C3F;  /* hover / yukseltilmis */
+  --chalk:         #E4EDF5;  /* ana metin - tebesir */
+  --chalk-dim:     #7C93A8;  /* ikincil metin */
+  --floodlight:    #FFB627;  /* imza vurgu - projektor */
+  --grass:         #34C759;  /* pozitif sinyal */
+  --alarm:         #FF5C5C;  /* ihtiyac / uyari */
+  --line:          #23394F;  /* ayirici cizgiler */
+}
+
+@theme inline {
+  --color-pitch-deep: var(--pitch-deep);
+  --color-pitch-surface: var(--pitch-surface);
+  --color-pitch-raised: var(--pitch-raised);
+  --color-chalk: var(--chalk);
+  --color-chalk-dim: var(--chalk-dim);
+  --color-floodlight: var(--floodlight);
+  --color-grass: var(--grass);
+  --color-alarm: var(--alarm);
+  --color-line: var(--line);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-data: var(--font-data);
+}
+
+body {
+  background: var(--pitch-deep);
+  color: var(--chalk);
+  font-family: var(--font-body), system-ui, sans-serif;
+  /* cok hafif bir projektor parlamasi - zemine derinlik verir */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 182, 39, 0.07), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(52, 199, 89, 0.04), transparent);
+  background-attachment: fixed;
+}
+
+/* Skorboard hissi: display font her zaman sikisik ve buyuk harf */
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.data {
+  font-family: var(--font-data), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Erisilebilirlik: klavye odagi her zaman gorunur */
+*:focus-visible {
+  outline: 2px solid var(--floodlight);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hareket azaltma tercihine saygi */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--pitch-deep); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pitch-raised); }

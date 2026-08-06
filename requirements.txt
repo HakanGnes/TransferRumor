@@ -1,0 +1,11 @@
+streamlit
+numpy
+pandas
+scikit-learn
+yellowbrick
+openpyxl
+pydotplus
+graphviz
+seaborn
+skompiler
+joblib
