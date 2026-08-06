@@ -1,0 +1,28 @@
+# =============================================================================
+# render.yaml — Render.com deployment yapilandirmasi
+# =============================================================================
+# Render'da "New > Blueprint" secip bu repoyu baglayinca bu dosyayi okur
+# ve servisi otomatik olusturur.
+#
+# UCRETSIZ KATMAN NOTU: Servis 15 dakika hareketsizlikten sonra uykuya
+# gecer; sonraki ilk istek 30-60 saniye surer. Frontend bunu bekleyip
+# kullaniciya bilgi verecek sekilde yazildi. Uyku istemiyorsan plani
+# "starter" yapman gerekir (aylik ucretli).
+# =============================================================================
+
+services:
+  - type: web
+    name: transferrumor-api
+    runtime: python
+    plan: free
+    region: frankfurt          # Turkiye'ye en yakin bolge
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      # Frontend adresini Vercel'den aldiktan sonra Render panelinden
+      # bu degeri guncelle. Birden fazla adres virgulle ayrilir.
+      - key: ALLOWED_ORIGINS
+        sync: false
