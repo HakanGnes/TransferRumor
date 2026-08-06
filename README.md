@@ -1,7 +1,6 @@
 # TransferRumor ⚽️
 
-**[→ Canlı demo](https://SENIN-VERCEL-ADRESIN.vercel.app)** · [API dokümantasyonu](https://SENIN-RENDER-ADRESIN.onrender.com/docs)
-
+**[→ Canlı demo](https://transfer-rumor.vercel.app)** · [API dokümantasyonu](https://transferrumor-api.onrender.com/docs)
 > API ücretsiz katmanda barındırılıyor ve 15 dakika kullanılmayınca uykuya
 > geçiyor. İlk açılış 30-60 saniye sürebilir, sonrası anında yanıtlar.
 
